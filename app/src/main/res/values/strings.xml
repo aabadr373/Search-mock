@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Robusta Search</string>
+
+    <string-array name="Grocery">
+        <item>Apples</item>
+        <item>Bananas</item>
+        <item>Oranges</item>
+        <item>Grapes</item>
+        <item>Berries</item>
+
+        <item>Melons</item>
+        <item>Tomatoes</item>
+        <item>Onions</item>
+        <item>Broccoli</item>
+        <item>Carrots</item>
+
+
+        <item>Cucumbers</item>
+        <item>Garlic</item>
+        <item>Peppers</item>
+        <item>Potatoes</item>
+
+        <item>Jam</item>
+        <item>Mayo</item>
+        <item>Mustard</item>
+        <item>Ketchup</item>
+        <item>Pickles</item>
+        <item>Olive oil</item>
+        <item>Peanut butter</item>
+
+    </string-array>
+</resources>
