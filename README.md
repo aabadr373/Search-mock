@@ -1,9 +1,9 @@
-Simple search demo
--MVVM desigh pattern (Shared ViewModel)
--Architicture components
--RxJava 2 
+Simple search demo  
+ MVVM design pattern (Shared ViewModel)
+  Architicture components
+  RxJava 2 
 
-Mocked APIs using postman
+Mocked APIs using postman with delay, 
 data returned by search API
    "milk", 
    "meat",
