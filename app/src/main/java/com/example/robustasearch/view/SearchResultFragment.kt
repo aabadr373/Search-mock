@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.robustasearch.data.SearchAdapter
 import com.example.robustasearch.data.SearchRepo
@@ -17,9 +18,6 @@ import com.example.robustasearch.databinding.FragmentSearchResultBinding
 import com.example.robustasearch.viewmodel.SearchViewModel
 import com.example.robustasearch.viewmodel.VmFactory
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -27,34 +25,25 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SearchResultFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var viewModelFactory: VmFactory
 
     private var _binding: FragmentSearchResultBinding? = null
     private val binding get() = _binding!!
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentSearchResultBinding.inflate(inflater, container, false)
         val view = binding.root
 
         viewModelFactory =
-            VmFactory(SearchRepo())
+                VmFactory(SearchRepo())
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory)
-            .get(SearchViewModel::class.java)
+                .get(SearchViewModel::class.java)
 
         return view
     }
@@ -62,9 +51,11 @@ class SearchResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvSearch.layoutManager = layoutManager
-
+        val dividerItemDecoration = DividerItemDecoration(binding.rvSearch.getContext(),
+                layoutManager.orientation)
+        binding.rvSearch.addItemDecoration(dividerItemDecoration)
         val adapter = SearchAdapter()
         binding.rvSearch.adapter = adapter
 
@@ -79,6 +70,7 @@ class SearchResultFragment : Fragment() {
         viewModel.searchResponse.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.dataSet = it
+                Log.v("dwqdqd", "${it.size}")
             }
         })
 
@@ -124,11 +116,7 @@ class SearchResultFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SearchResultFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                SearchResultFragment().apply {
                 }
-            }
     }
 }

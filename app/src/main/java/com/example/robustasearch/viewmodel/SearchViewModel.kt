@@ -34,8 +34,8 @@ class SearchViewModel(searchRepo: SearchRepo) : ViewModel() {
                 .observeOn(Schedulers.io())
                 .subscribe({ response ->
                     run {
-                        mutableSearchResponse.value = response.response
-                        mutableLoading.value = false
+                        mutableSearchResponse.postValue(response.response)
+                        mutableLoading.postValue(false)
 
                     }
                 },

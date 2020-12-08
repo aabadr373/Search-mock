@@ -1,11 +1,12 @@
 package com.example.robustasearch.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View.GONE
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import com.example.robustasearch.data.SearchRepo
 import com.example.robustasearch.databinding.ActivityMainBinding
 import com.example.robustasearch.viewmodel.SearchViewModel
 import com.example.robustasearch.viewmodel.VmFactory
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,14 +31,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         viewModelFactory =
-            VmFactory(SearchRepo())
+                VmFactory(SearchRepo())
         viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(SearchViewModel::class.java)
+                .get(SearchViewModel::class.java)
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add<SearchResultFragment>(
-                    R.id.fl_container
+                        R.id.fl_container
                 )
             }
         }
@@ -48,10 +50,11 @@ class MainActivity : AppCompatActivity() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-                    binding.tvWelcome.visibility = GONE
+                    if (binding.tvWelcome.visibility != GONE) animateExit()
                     viewModel.performSearch(s.toString())
-                    Log.v("Search", "performSearch $s")
-                }
+
+                } else
+                    viewModel.performSearch(" ")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -64,4 +67,34 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onStart() {
+        super.onStart()
+        animateEntry()
+    }
+
+    private fun animateEntry() {
+        val enterFromLeft: Animation = AnimationUtils.loadAnimation(this,
+                R.anim.anim_enter_from_bottom)
+        binding.tvWelcome.startAnimation(enterFromLeft)
+
+    }
+
+    private fun animateExit() {
+        val exitFromRight: Animation = AnimationUtils.loadAnimation(this,
+                R.anim.anim_exit_from_right)
+
+        binding.tvWelcome.startAnimation(exitFromRight)
+
+        exitFromRight.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationEnd(animation: Animation) {
+                binding.tvWelcome.visibility = GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+    }
+
+
 }

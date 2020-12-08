@@ -17,6 +17,7 @@ class SearchAdapter() :
     var searchPrefix: String = ""
         set(value) {
             field = value
+            dataSet = listOf()
             notifyDataSetChanged()
         }
 
@@ -24,23 +25,33 @@ class SearchAdapter() :
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(private val itemSearchBinding: ItemSearchBinding) : RecyclerView.ViewHolder(itemSearchBinding.root) {
+    class ViewHolder(private val itemSearchBinding: ItemSearchBinding) :
+            RecyclerView.ViewHolder(itemSearchBinding.root) {
 
         fun bind(searchPrefix: String, searchItem: String) {
-            itemSearchBinding.tvPrefix.text = searchPrefix
-            itemSearchBinding.tvName.text = searchItem.substring(searchPrefix.length)
+            if (searchPrefix.trim().length < searchItem.length && searchItem.startsWith(searchPrefix)) {
+                itemSearchBinding.tvPrefix.text = searchPrefix
+                itemSearchBinding.tvName.text = searchItem.substring(searchPrefix.length)
+            } else {
+                itemSearchBinding.tvPrefix.text = searchPrefix.trim()
+                itemSearchBinding.tvName.text = ""
+            }
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val itemBinding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding =
+                ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(
-            itemBinding
+                itemBinding
         )
+
+
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = if (dataSet.size <= 20) dataSet.size else 20
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(searchPrefix, dataSet[position])
