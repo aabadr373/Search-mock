@@ -17,7 +17,7 @@
     <TextView
         android:text="@string/app_name"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:fontFamily="sans-serif-black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -27,8 +27,10 @@
             android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/grey"
+            android:textColor="@color/white"
             android:fontFamily="sans-serif-condensed-medium"
-            android:hint="Search MarketPlace"
+            android:hint="@string/search_marketplace"
             android:padding="16dp"
             android:textSize="20sp" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -40,7 +42,7 @@
         android:layout_gravity="center"
         android:fontFamily="sans-serif-condensed-light"
         android:gravity="center_horizontal"
-        android:text="Welcome! \nstart typing to see results"
+        android:text="@string/welcome_msg"
         android:textColor="@color/black"
         android:textSize="24sp" />
 

@@ -85,7 +85,7 @@ class SearchResultFragment : Fragment() {
         })
 
 
-        viewModel.scrollToTop.observe(viewLifecycleOwner, Observer {
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) binding.pbSearch.visibility = VISIBLE
                 else binding.pbSearch.visibility = GONE

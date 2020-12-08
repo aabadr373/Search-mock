@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Robusta Search</string>
+    <string name="search_marketplace">Search MarketPlace</string>
+    <string name="welcome_msg">Welcome! \nstart typing to see results</string>
 
     <string-array name="Grocery">
         <item>Apples</item>
